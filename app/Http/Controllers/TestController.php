@@ -18,6 +18,5 @@ class TestController extends Controller
         ->get();
         // dd($x);
         return view('tests.test', compact('values'));
-        
     }
 }
