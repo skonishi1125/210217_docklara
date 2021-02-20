@@ -33,5 +33,13 @@ Route::group(['prefix' => 'post','middleware' => 'auth'],function () {
     Route::get('create' , 'PostController@create')->name('post.create');
     Route::post('store' , 'PostController@store')->name('post.store');
     Route::get('show/{id}' , 'PostController@show')->name('post.show');
+    Route::get('edit/{id}' , 'PostController@edit')->name('post.edit');
+    Route::post('update/{id}' , 'PostController@update')->name('post.update');
+    Route::post('destroy/{id}' , 'PostController@destroy')->name('post.destroy');
+    //session,cookie練習
+    Route::post('session' , 'PostController@session')->name('post.session');
+    Route::post('cookie' , 'PostController@cookie')->name('post.cookie');
+    Route::get('d_session' , 'PostController@d_session')->name('post.d_session');
+    Route::get('d_cookie' , 'PostController@d_cookie')->name('post.d_cookie');
 });
 

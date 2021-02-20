@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 // クエリビルダの使用
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
 
 class PostController extends Controller
 {
@@ -24,7 +25,10 @@ class PostController extends Controller
         ->orderBy('id','desc')
         ->get();
         // dd($posts,$members);
-        return view('post.index',compact('posts','members'));
+
+        // クッキー取得
+        $cookie = Cookie::get('cookie_controller');
+        return view('post.index',compact('posts','members','cookie'));
     }
 
     /**
@@ -68,6 +72,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        //エロクアント
         $post = Post::find($id);
         return view('post.show',compact('post'));
     }
@@ -81,6 +86,8 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+        return view('post.edit',compact('post'));
     }
 
     /**
@@ -92,7 +99,13 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 今あるインスタンス(idのもの)を入れる
+        $post = Post::find($id);
+
+        $post->message = $request->input('message');
+        $post->save();
+        // dd($post);
+        return redirect('post/index');
     }
 
     /**
@@ -103,6 +116,46 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 今あるインスタンス(idのもの)を入れる
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect('post/index');
     }
+
+    //  クッキー、セッションの練習
+    public function session(Request $request){
+        $session = $request->testSession;
+        // dd($session);
+
+        if ($session == null) {
+            $request->session()->put('session_controller','nullでした');
+            return redirect('post/index');
+        }
+        // セッション配置
+        // $request->session()->put('セッションの名前',入れる値);
+        $request->session()->put('session_controller',$session);
+        return redirect('post/index');
+    }
+
+    public function d_session(Request $request) {
+        $request->session()->forget('session_controller');
+        return redirect('post/index');
+    }
+
+    public function cookie(Request $request) {
+        $cookie = $request->testCookie;
+
+        // クッキー生成
+        // 名前、値、有効期限(分) 値は暗号化される！
+        // cookie('cookie_controller',$cookie,1);
+        return redirect('post/index')->cookie('cookie_controller',$cookie,3);
+    }
+
+    public function d_cookie() {
+        // nullとする
+        Cookie::queue('cookie_controller',null);
+        return redirect('post/index');
+    }
+
 }

@@ -15,6 +15,48 @@
                     @endif
 
                     <div>
+                        <p>セッションとして以下の値を保存する</p>
+                        <form action="{{ route('post.session') }}" method="POST">
+                        @csrf
+                            <input type="text" name="testSession" value="">
+                            <input type="submit" class="btn btn-success btn-sm">
+                        </form>
+                        {{-- 
+                            セッション取得
+                            Session::get('セッション名',デフォルトの値)
+                        --}}
+                        <p>
+                            現在のセッション -> {{Session::get('session_controller','未設定です')}}
+                            <a href="{{ route('post.d_session') }}">セッションを削除する</a>
+                        </p>
+                    </div>
+
+
+                    <div>
+                        <p>クッキーを生成してみよう</p>
+                        <form action="{{ route('post.cookie') }}" method="POST">
+                        @csrf
+                            <input type="text" name="testCookie" value="">
+                            <input type="submit" class="btn btn-secondary btn-sm">
+                        </form>
+                        {{-- 
+                            クッキー取得(値は暗号化されている)
+                            関数のように呼び出すだけでOK
+                        --}}
+                        <p>
+                            
+                            @if ($cookie == null)
+                            クッキーの値 -> cookieには現在設定されていません
+                            @else
+                            クッキーの値 -> {{$cookie}}
+                            @endif
+
+                            <a href="{{ route('post.d_cookie')}}">クッキーを削除する</a>
+
+                        </p>
+                    </div>
+
+                    <div>
                         <p>{{ Auth::user()->name }}さん、投稿してみましょう！</p>
                         <form method="POST" action="{{ route('post.store') }}">
                             @csrf

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">かあスレッド(show)</div>
+                <div class="card-header">かあスレッド(Edit)</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,6 +13,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
+
+                    <form method="POST" action="{{route('post.update',['id' => $post->id])}}">
+                        @csrf
+                        <textarea name="message">{{$post->message}}</textarea>
+                        <input type="hidden" name="reply_post_id" value="0">
+                        <button class="btn btn-info" type="submit">更新する</button>
+                    </form>
                     
                     <h5>あなたの投稿</h5>
 
@@ -23,16 +30,10 @@
                     {{$post->created_at}}
                     {{$post->updated_at}}
 
-                    <form action="{{ route('post.edit',['id' => $post->id]) }}" method="GET">
+                    {{-- <form action="" method="GET">
                         @csrf
-                        <input class="btn btn-info" type="submit" value="変更する">
-                    </form>
-
-                    <form method="POST" action="{{ route('post.destroy',['id' => $post->id]) }}" id="delete_{{ $post->id }}">
-                        @csrf
-                        <a href="#" class="btn btn-danger" data-id="{{ $post->id }}" onclick="deletePost(this);">削除する</a>
-                      </form>
-
+                        <input class="btn btn-info" type="submit" value="更新する">
+                    </form> --}}
                     <a href="{{ route('post.index') }}">post/indexへ</a>
                     
 
@@ -41,16 +42,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    // onclickでこの関数が呼ばれている
-    function deletePost(e) {
-      'use strict';
-      if (confirm('本当に削除してもいいですか?')) {
-        // submit:実行する
-        document.getElementById('delete_' + e.dataset.id).submit();
-      }
-    }
-</script>
-
 @endsection
