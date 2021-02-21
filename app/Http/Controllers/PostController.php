@@ -21,11 +21,11 @@ class PostController extends Controller
    {
       //
       $posts = DB::table('posts')
-         ->orderBy('id', 'desc')
-         ->get();
+         ->orderBy('id', 'asc')
+         ->paginate(20);
       $members = DB::table('members')
          ->orderBy('id', 'desc')
-         ->get();
+         ->paginate(5);
       // dd($posts,$members);
 
       // テストクッキー取得
