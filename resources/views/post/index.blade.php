@@ -21,8 +21,10 @@
                         <input type="text" name="testSession" value="">
                         <input type="submit" class="btn btn-success btn-sm">
                      </form>
-                     {{-- セッション取得
-                            Session::get('セッション名',デフォルトの値) --}}
+                     {{--
+                        セッション取得
+                        Session::get('セッション名',デフォルトの値)
+                     --}}
                      <p>
                         現在のセッション -> {{ Session::get('session_controller', '未設定です') }}
                         <a href="{{ route('post.d_session') }}">セッションを削除する</a>
@@ -37,8 +39,10 @@
                         <input type="text" name="testCookie" value="">
                         <input type="submit" class="btn btn-secondary btn-sm">
                      </form>
-                     {{-- クッキー取得(値は暗号化されている)
-                            関数のように呼び出すだけでOK --}}
+                     {{--
+                        クッキー取得(値は暗号化されている)
+                        関数のように呼び出すだけでOK
+                     --}}
                      <p>
 
                         @if ($cookie == null)
@@ -121,6 +125,7 @@
 
                      </tbody>
                   </table>
+                  {{ $posts->links() }}
 
                   <h5>現在の登録状況</h5>
 
@@ -151,7 +156,7 @@
 
                      </tbody>
                   </table>
-
+                  {{ $members->links() }}
                </div>
             </div>
          </div>
